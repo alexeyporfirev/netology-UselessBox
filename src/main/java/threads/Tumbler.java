@@ -28,15 +28,16 @@ public class Tumbler {
      */
     public void tumblerOn() {
         while (currentIteration < maxIteration) {
+            if (!tumbler) {
+                System.out.println("Игрок переключил тумблер.");
+                tumbler = true;
+                currentIteration++;
+            }
             try {
                 Thread.currentThread().sleep(rand.nextInt(timeout));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            while (tumbler) ;
-            System.out.println("Игрок переключил тумблер.");
-            tumbler = true;
-            currentIteration++;
         }
     }
 
@@ -44,13 +45,10 @@ public class Tumbler {
      * Выключение тумблера
      */
     public void tumblerOff() {
-        while (true) {
-            while (!tumbler && !Thread.currentThread().isInterrupted()) ;
-            if (!Thread.currentThread().isInterrupted()) {
+        while(!Thread.currentThread().isInterrupted()) {
+            if(tumbler) {
                 System.out.println("Коробка сбросила тумблер.\n----------------");
                 tumbler = false;
-            } else {
-                return;
             }
         }
     }
